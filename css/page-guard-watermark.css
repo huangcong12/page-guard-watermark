@@ -1,0 +1,12 @@
+/* 在body元素中添加水印样式 */
+/*body::after {*/
+/*    content: "CSS 水印"; !* 水印文字内容 *!*/
+/*    position: fixed;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    font-size: 24px;*/
+/*    color: rgba(0, 0, 0, 0.1); !* 水印文字颜色和透明度 *!*/
+/*    pointer-events: none; !* 防止水印影响用户交互 *!*/
+/*    z-index: 9999; !* 设置水印的层级，确保它在其他元素之上 *!*/
+/*}*/
