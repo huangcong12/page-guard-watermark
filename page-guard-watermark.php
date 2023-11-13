@@ -49,10 +49,10 @@ function pageguard_watermark_scripts()
                 font = "20px Microsoft Yahei",
                 fillStyle = 'rgba(184, 184, 184, 0.6)',
                 content = '水印',
-                rotate = '45',
+                rotate = '0',
                 zIndex = 10000,
-                margin = 10, // 新增的参数，用于控制水印之间的间距
-                marginLeft = 40, // 新增的参数，用于控制左右间距
+                marginTop = 0, // 新增的参数，用于控制水印之间的间距
+                marginLeft = 0, // 新增的参数，用于控制左右间距
             } = {}) {
                 const args = arguments[0];
         
@@ -60,26 +60,29 @@ function pageguard_watermark_scripts()
                 const tempCanvas = document.createElement('canvas');
                 const tempCtx = tempCanvas.getContext('2d');
                 tempCtx.font = font;
-                
+        
                 // 处理带有换行符的内容
                 const lines = content.split('\\n');
                 const textWidth = Math.max(...lines.map(line => tempCtx.measureText(line).width));
         
+                // 计算每行文字的高度
+                const lineHeight = 20; // 每行文字的高度
+                const totalHeight = lines.length * lineHeight  + marginTop;
+        
                 // 创建主要的 canvas 元素
                 const canvas = document.createElement('canvas');
-                canvas.setAttribute('width', (textWidth + 2 * marginLeft).toString() + 'px'); // 考虑左右间距
-                canvas.setAttribute('height', (lines.length * 24 + (lines.length - 1) * margin).toString() + 'px');
+                canvas.setAttribute('width', (textWidth + marginLeft).toString() + 'px'); // 考虑左右间距
+                canvas.setAttribute('height', totalHeight.toString() + 'px'); // 使用动态计算的高度
                 const ctx = canvas.getContext('2d');
         
                 ctx.textAlign = textAlign;
                 ctx.textBaseline = textBaseline;
                 ctx.font = font;
                 ctx.fillStyle = fillStyle;
-                // ctx.rotate(Math.PI / 180 * rotate);
         
                 lines.forEach((line, index) => {
                     const textX = parseFloat(canvas.width) / 2; // 居中
-                    const textY = parseFloat(canvas.height) / 2 + index * 20; // 每行间隔 20px，可以根据实际需求调整
+                    const textY = lineHeight * index + 10 + marginTop; // 动态计算每行文字的 Y 坐标
                     ctx.fillText(line, textX, textY);
                 });
         
@@ -88,19 +91,19 @@ function pageguard_watermark_scripts()
         
                 const watermarkDiv = __wm || document.createElement('div');
                 const styleStr = `
-                            position:fixed;
-                            top:0;
-                            left:0;
-                            bottom:0;
-                            right:0;
-                            width:500%;
-                            height:500%;
-                            z-index:10000;
-                            pointer-events:none;
-                            background-repeat:repeat;
-                            background-image:url('` + base64Url + `');
-                            transform: rotate(0.1turn);
-                            transform-origin: 50% 0%;`;
+                    position:fixed;
+                    top:0;
+                    left:0;
+                    bottom:0;
+                    right:0;
+                    width:500%;
+                    height:500%;
+                    z-index:10000;
+                    pointer-events:none;
+                    background-repeat:repeat;
+                    background-image:url('` + base64Url + `');
+                    transform: rotate(0turn);
+                    transform-origin: 50% 0%;`;
         
                 watermarkDiv.setAttribute('style', styleStr);
                 watermarkDiv.classList.add('__wm');
@@ -145,11 +148,13 @@ function pageguard_watermark_scripts()
         // 调用
         jQuery(document).ready(function ($) {
             __canvasWM({
-                content: 'ip:127.0.0.1 admin 2023-11-11 22:15\\nSecond line\\nThird line\\nFour \\nFive \\n2023-11-11 22:15',
+                //content: 'ip:127.0.0.1 admin 2023-11-11 22:1512345678901234567890\\nSecond line\\nThird line\\nFour \\nFive \\n2023-11-11 22:16\\n2023-11-11 22:17\\n2023-11-11 22:18\\n2023-11-11 22:19\\n2023-11-11 22:10',
+                content: 'ip:127.0.0.1 admin 2023-11-11 22:1512345678901234567890\\nSecond line\\nThird line\\nFour \\nFive',
                 fillStyle: 'rgba(0, 0, 255, 0.5)',
-                textBaseline: 'bottom',
+                textBaseline: 'middle',
             });
         });
+
 EOF;
 
     wp_add_inline_script('pageguard-watermark-js', $custom_js, 'after'); // 将动态生成的 JS 代码注入到 'pageguard-watermark-js' 脚本之后
