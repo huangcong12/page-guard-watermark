@@ -43,47 +43,64 @@ function pageguard_watermark_scripts()
     $custom_js = <<<EOF
         (function () {
             function __canvasWM({
-                                    container = document.body,
-                                    width = '300px',
-                                    height = '200px',
-                                    textAlign = 'center',
-                                    textBaseline = 'middle',
-                                    font = "20px Microsoft Yahei",
-                                    fillStyle = 'rgba(184, 184, 184, 0.6)',
-                                    content = '水印',
-                                    rotate = '0',
-                                    zIndex = 10000
-                                } = {}) {
+                container = document.body,
+                textAlign = 'center',
+                textBaseline = 'middle',
+                font = "20px Microsoft Yahei",
+                fillStyle = 'rgba(184, 184, 184, 0.6)',
+                content = '水印',
+                rotate = '45',
+                zIndex = 10000,
+                margin = 10, // 新增的参数，用于控制水印之间的间距
+                marginLeft = 40, // 新增的参数，用于控制左右间距
+            } = {}) {
                 const args = arguments[0];
-                const canvas = document.createElement('canvas');
         
-                canvas.setAttribute('width', width);
-                canvas.setAttribute('height', height);
-                const ctx = canvas.getContext("2d");
+                // 创建临时的 canvas 元素来测量文本的宽度和高度
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.font = font;
+                
+                // 处理带有换行符的内容
+                const lines = content.split('\\n');
+                const textWidth = Math.max(...lines.map(line => tempCtx.measureText(line).width));
+        
+                // 创建主要的 canvas 元素
+                const canvas = document.createElement('canvas');
+                canvas.setAttribute('width', (textWidth + 2 * marginLeft).toString() + 'px'); // 考虑左右间距
+                canvas.setAttribute('height', (lines.length * 24 + (lines.length - 1) * margin).toString() + 'px');
+                const ctx = canvas.getContext('2d');
         
                 ctx.textAlign = textAlign;
                 ctx.textBaseline = textBaseline;
                 ctx.font = font;
                 ctx.fillStyle = fillStyle;
-                ctx.rotate(Math.PI / 180 * rotate);
-                ctx.fillText(content, parseFloat(width) / 2, parseFloat(height) / 2);
+                // ctx.rotate(Math.PI / 180 * rotate);
+        
+                lines.forEach((line, index) => {
+                    const textX = parseFloat(canvas.width) / 2; // 居中
+                    const textY = parseFloat(canvas.height) / 2 + index * 20; // 每行间隔 20px，可以根据实际需求调整
+                    ctx.fillText(line, textX, textY);
+                });
         
                 const base64Url = canvas.toDataURL();
                 const __wm = document.querySelector('.__wm');
         
-                const watermarkDiv = __wm || document.createElement("div");
+                const watermarkDiv = __wm || document.createElement('div');
                 const styleStr = `
-                          position:fixed;
-                          top:0;
-                          left:0;
-                          bottom:0;
-                          right:0;
-                          width:100%;
-                          height:100%;
-                          z-index:10000;
-                          pointer-events:none;
-                          background-repeat:repeat;
-                          background-image:url('`+base64Url+`');`;
+                            position:fixed;
+                            top:0;
+                            left:0;
+                            bottom:0;
+                            right:0;
+                            width:500%;
+                            height:500%;
+                            z-index:10000;
+                            pointer-events:none;
+                            background-repeat:repeat;
+                            background-image:url('` + base64Url + `');
+                            transform: rotate(0.1turn);
+                            transform-origin: 50% 0%;`;
         
                 watermarkDiv.setAttribute('style', styleStr);
                 watermarkDiv.classList.add('__wm');
@@ -110,11 +127,11 @@ function pageguard_watermark_scripts()
                         attributes: true,
                         subtree: true,
                         childList: true
-                    })
+                    });
                 }
             }
         
-            if (typeof module != 'undefined' && module.exports) {  //CMD
+            if (typeof module != 'undefined' && module.exports) { //CMD
                 module.exports = __canvasWM;
             } else if (typeof define == 'function' && define.amd) { // AMD
                 define(function () {
@@ -126,14 +143,12 @@ function pageguard_watermark_scripts()
         })();
         
         // 调用
-        jQuery(document).ready(function($) { 
+        jQuery(document).ready(function ($) {
             __canvasWM({
-                width: '300px',
-                height: '200px',
-                content: 'ip:127.0.0.1 admin 2023-11-11 22:15',
-                fillStyle: 'rgba(0, 0, 200, 0.5)',
+                content: 'ip:127.0.0.1 admin 2023-11-11 22:15\\nSecond line\\nThird line\\nFour \\nFive \\n2023-11-11 22:15',
+                fillStyle: 'rgba(0, 0, 255, 0.5)',
                 textBaseline: 'bottom',
-            })
+            });
         });
 EOF;
 
