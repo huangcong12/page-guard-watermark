@@ -103,14 +103,18 @@
 
     }
 
+    console.log(1)
     if (typeof module != 'undefined' && module.exports) {  //CMD
         module.exports = __canvasWM;
+        console.log(2)
     } else if (typeof define == 'function' && define.amd) { // AMD
         define(function () {
             return __canvasWM;
+            console.log(3)
         });
     } else {
         window.__canvasWM = __canvasWM;
+        console.log(4)
     }
 })();
 

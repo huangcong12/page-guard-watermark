@@ -36,8 +36,8 @@ function pageguard_watermark_scripts()
     $watermark_text = get_option('pageguard_watermark_text', 'Default Watermark Text');
 
     // 注册并添加JavaScript文件
-    wp_register_script('pageguard-watermark-js', false); // 注册时不设置文件路径
-    wp_enqueue_script('pageguard-watermark-js');
+    wp_register_script('page-guard-watermark-js', false); // 注册时不设置文件路径
+    wp_enqueue_script('page-guard-watermark-js');
 
     // 使用 wp_add_inline_script 动态生成 JavaScript 代码
     $custom_js = <<<EOF
@@ -97,12 +97,12 @@ function pageguard_watermark_scripts()
                     bottom:0;
                     right:0;
                     width:500%;
-                    height:500%;
+                    height:100%;
                     z-index:10000;
                     pointer-events:none;
                     background-repeat:repeat;
                     background-image:url('` + base64Url + `');
-                    transform: rotate(0turn);
+                    transform: rotate(0.9turn);
                     transform-origin: 50% 0%;`;
         
                 watermarkDiv.setAttribute('style', styleStr);
@@ -150,17 +150,20 @@ function pageguard_watermark_scripts()
             __canvasWM({
                 //content: 'ip:127.0.0.1 admin 2023-11-11 22:1512345678901234567890\\nSecond line\\nThird line\\nFour \\nFive \\n2023-11-11 22:16\\n2023-11-11 22:17\\n2023-11-11 22:18\\n2023-11-11 22:19\\n2023-11-11 22:10',
                 content: 'ip:127.0.0.1 admin 2023-11-11 22:1512345678901234567890\\nSecond line\\nThird line\\nFour \\nFive',
-                fillStyle: 'rgba(0, 0, 255, 0.5)',
+                fillStyle: 'rgba(0, 0, 255, 0.1)',
                 textBaseline: 'middle',
             });
         });
-
 EOF;
 
-    wp_add_inline_script('pageguard-watermark-js', $custom_js, 'after'); // 将动态生成的 JS 代码注入到 'pageguard-watermark-js' 脚本之后
+    wp_add_inline_script('page-guard-watermark-js', $custom_js, 'after'); // 将动态生成的 JS 代码注入到 'pageguard-watermark-js' 脚本之后
 }
 
-pageguard_watermark_scripts();
+//pageguard_watermark_scripts();
+
+// 注册并添加JavaScript文件
+wp_register_script('page-guard-watermark-js', plugin_dir_url(__FILE__) . 'js/page-guard-watermark2.js', array('jquery'), '1.0', true);
+wp_enqueue_script('page-guard-watermark-js');
 
 
 //function pageguard_watermark_scripts()
