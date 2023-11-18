@@ -14,6 +14,22 @@
                 ctx.drawImage(img, 0, 0, logoWidth, logoHeight);
             };
         }
+
+        // 图片颜色转成和文字颜色一样
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let data = imageData.data;
+        for(let i = 0; i < data.length; i += 4) {
+            // 如果是白色，改为透明
+            if(data[i] === 255 && data[i + 1] === 255 && data[i + 2] === 255) {
+                data[i + 3] = 0;
+            } else {
+                // 否则改变每个像素的颜色
+                data[i] = 184;     // red
+                data[i + 1] = 184;   // green
+                data[i + 2] = 184;   // blue
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
     }
 
     function drawText(canvas, options) {
@@ -117,7 +133,7 @@
     }
 
     // 生成水印
-    function createWaterMarkCanvas(alpha = 0.9, {
+    function createWaterMarkCanvas(alpha = 0.1, {
         logoUrl = '/test_logo_2.jpg',// 图片地址
         logoWidth = 100,  // 设置图片需要的宽度
         logoHeight = 100, // 设置图片需要的高度
@@ -154,18 +170,15 @@
 
         // Merge canvases into a single canvas
         return mergeCanvases(logoCanvas, textCanvas, direction);
-
-        // Append the merged canvas to the document body
-
-    };
+    }
 
     function __canvasWM() {
         // 获取总的cavans
-        let canvas = createWaterMarkCanvas(0.4, {
-            logoUrl: "/熊logo.png",
+        let canvas = createWaterMarkCanvas(0.15, {
+            logoUrl: "/huawei_logo.png",
             logoWidth: 50,
             logoHeight: 50
-        }, {content: "中华人民共和国\\n万岁\\n世界人民\\n大团结\\n万岁", fontSize: "20"}, MergeDirection.Left);
+        }, {content: "内部系统\\n请勿截图\\n截图溯源\\请勿外传", fontSize: "20"}, MergeDirection.Left);
         const base64Url = canvas.toDataURL();
         // document.body.appendChild(canvas);
 
@@ -258,7 +271,7 @@
  */
 function initLoadImg() {
     const img = new Image();
-    img.src = "/熊logo.png";
+    img.src = "/huawei_logo.png";
 }
 
 initLoadImg()
