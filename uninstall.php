@@ -1,5 +1,7 @@
 <?php
 
+defined('WPINC') || exit;
+
 // Prevent execution from directly accessing the file.
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit;

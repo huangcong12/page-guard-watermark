@@ -7,29 +7,39 @@ Author: Hang Cong
 Version: 1.0.0
 Author URI: https://github.com/huangcong12
 */
+defined('WPINC') || exit;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
+!defined('LITA_PIG_PGW_WP_DIR') && define('LITA_PIG_PGW_WP_DIR', __DIR__ . '/');    // 插件目录
+!defined('LITA_PIG_PGW_WP_NAME') && define('LITA_PIG_PGW_WP_NAME', 'page_guard_watermark'); // 插件名字
 
-function pluginprefix_function_to_run()
-{
-    return true;
-}
+// 自动注册类
+require_once LITA_PIG_PGW_WP_DIR . 'autoload.php';
 
+## -------------------------------------------------- ##
+## --------------	  插件管理   	----------------- ##
+## -------------------------------------------------- ##
 // 激活时候运行
-register_activation_hook(__FILE__, 'pluginprefix_function_to_run');
-
-function register_deactivation_hook2()
-{
-    return true;
-}
-
+register_activation_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::activation");
 // 停用的时候运行
-register_deactivation_hook(__FILE__, 'register_deactivation_hook2');
+register_deactivation_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::deactivation");
+// 删除插件
+register_uninstall_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::uninstall");
 
 
+## -------------------------------------------------- ##
+## --------------	  菜单管理   	----------------- ##
+## -------------------------------------------------- ##
+// 顶级菜单
+add_action('admin_menu', "LitaPig\\PageGuardWatermark\\AdminMenuHandler::menusManager");
+
+
+/**
+ * 把水印 js 注入到系统 js 里
+ */
 function pageguard_watermark_scripts()
 {
     // 获取动态生成的水印文本，可以是一个选项值或其他动态数据
