@@ -2,6 +2,11 @@
 
 namespace LitaPig\PageGuardWatermark;
 
+/**
+ * 插件安装、停用、删除的助手类
+ * Class PluginActivationHandler
+ * @package LitaPig\PageGuardWatermark
+ */
 class PluginActivationHandler
 {
     /**

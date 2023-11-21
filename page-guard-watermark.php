@@ -20,21 +20,16 @@ if (!defined('ABSPATH')) {
 require_once LITA_PIG_PGW_WP_DIR . 'autoload.php';
 
 ## -------------------------------------------------- ##
-## --------------	  插件管理   	----------------- ##
+## -----------------	插件管理   ------------------- ##
 ## -------------------------------------------------- ##
-// 激活时候运行
-register_activation_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::activation");
-// 停用的时候运行
-register_deactivation_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::deactivation");
-// 删除插件
-register_uninstall_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::uninstall");
-
+register_activation_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::activation"); // 激活时候运行
+register_deactivation_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::deactivation"); // 停用的时候运行
+register_uninstall_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivationHandler::uninstall");   // 删除插件
 
 ## -------------------------------------------------- ##
-## --------------	  菜单管理   	----------------- ##
+## -----------------	菜单管理   ------------------- ##
 ## -------------------------------------------------- ##
-// 顶级菜单
-add_action('admin_menu', "LitaPig\\PageGuardWatermark\\AdminMenuHandler::menusManager");
+add_action('admin_menu', "LitaPig\\PageGuardWatermark\\AdminMenuHandler::menusManager");    // 顶级菜单
 
 
 /**

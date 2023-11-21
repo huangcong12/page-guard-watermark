@@ -4,6 +4,11 @@ namespace LitaPig\PageGuardWatermark;
 
 defined('WPINC') || exit;
 
+/**
+ * 后台菜单助手类
+ * Class AdminMenuHandler
+ * @package LitaPig\PageGuardWatermark
+ */
 class AdminMenuHandler
 {
     const TOP_MENU_SLUG = 'page_guard_watermark';
@@ -41,7 +46,8 @@ class AdminMenuHandler
      */
     private static function subMenus()
     {
-        add_submenu_page(self::TOP_MENU_SLUG, "List",
+        add_submenu_page(self::TOP_MENU_SLUG,
+            "List",
             "List",
             "manage_options",
             "page_guard_watermark_list",
@@ -58,7 +64,7 @@ class AdminMenuHandler
 
         // 更改第一个子菜单的名称
         if (isset($submenu[LITA_PIG_PGW_WP_NAME])) {
-            $submenu[LITA_PIG_PGW_WP_NAME][0][0] = 'Watermark List';
+            $submenu[LITA_PIG_PGW_WP_NAME][0][0] = 'All Watermark';
         }
     }
 }
