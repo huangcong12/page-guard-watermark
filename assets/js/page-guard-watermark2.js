@@ -144,7 +144,7 @@
                                        fontSize = '20',
                                        font = 'Microsoft Yahei',
                                        lineHeight = "2",  // 行间距
-                                       fillStyle = 'rgba(184, 184, 184, 0.5)',
+                                       fillStyle = '#e0338c',
                                    } = {}, direction = MergeDirection.Left) {
         const logoCanvas = document.createElement('canvas');
 
@@ -178,7 +178,7 @@
             logoUrl: "/huawei_logo.png",
             logoWidth: 50,
             logoHeight: 50
-        }, {content: "内部系统\\n请勿截图\\n截图溯源\\请勿外传", fontSize: "20"}, MergeDirection.Left);
+        }, {content: "内部系统\\n请勿截图\\n截图溯源\\n请勿外传", fontSize: "15"}, MergeDirection.Left);
         const base64Url = canvas.toDataURL();
         // document.body.appendChild(canvas);
 

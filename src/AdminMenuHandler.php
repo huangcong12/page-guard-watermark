@@ -53,8 +53,8 @@ class AdminMenuHandler
     private static function topLevelMenus()
     {
         add_menu_page(
-            'Page Guard Watermark List',
-            "PageMark",
+            esc_html__('Page Guard Watermark List', 'page-guard-watermark'),
+            esc_html__("PageMark", 'page-guard-watermark'),
             'manage_options',
             self::TOP_MENU_SLUG,
             [__NAMESPACE__ . '\Controller\PageGuardWatermark', 'edit'],
@@ -69,8 +69,8 @@ class AdminMenuHandler
     private static function subMenus()
     {
         add_submenu_page(self::TOP_MENU_SLUG,
-            "Upgrade to Pro",
-            "Upgrade to Pro",
+            esc_html__("Upgrade to Pro", 'page-guard-watermark'),
+            esc_html__("Upgrade to Pro", 'page-guard-watermark'),
             "manage_options",
             "page_guard_watermark_upgrade_to_pro",
             [__NAMESPACE__ . '\Controller\UpgradeToPro', 'show'],
@@ -89,7 +89,6 @@ class AdminMenuHandler
         }
 
         if (isset($submenu[self::TOP_MENU_SLUG][$upgradeButtonPosition][4])) {
-            echo 11;
             $submenu[self::TOP_MENU_SLUG][$upgradeButtonPosition][4] .= ' page-guard-watermark-sidebar-upgrade-pro';
         } else {
             $submenu[self::TOP_MENU_SLUG][$upgradeButtonPosition][] = 'page-guard-watermark-sidebar-upgrade-pro';
@@ -106,7 +105,7 @@ class AdminMenuHandler
 
         // 更改第一个子菜单的名称
         if (isset($submenu[LITA_PIG_PGW_WP_NAME])) {
-            $submenu[LITA_PIG_PGW_WP_NAME][0][0] = 'Watermark Settings';
+            $submenu[LITA_PIG_PGW_WP_NAME][0][0] = esc_html__('Watermark Settings', 'page-guard-watermark');
         }
     }
 }

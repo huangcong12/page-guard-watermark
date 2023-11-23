@@ -1,6 +1,8 @@
 <?php
 /*
-Plugin Name: PageGuard Watermark
+Plugin Name: Page Guard Watermark
+Text Domain: page-guard-watermark
+Domain Path: /assets/languages
 Plugin URI: http://wordpress.org/plugins/hello-dolly/
 Description: Protect and Label Your Webpage Content
 Author: Hang Cong
@@ -167,7 +169,7 @@ EOF;
 //pageguard_watermark_scripts();
 
 // 注册并添加JavaScript文件
-wp_register_script('page-guard-watermark-js', plugin_dir_url(__FILE__) . 'js/page-guard-watermark2.js', array('jquery'), '1.0', true);
+wp_register_script('page-guard-watermark-js', plugin_dir_url(__FILE__) . '/assets/js/page-guard-watermark2.js', array('jquery'), '1.0', true);
 wp_enqueue_script('page-guard-watermark-js');
 
 
