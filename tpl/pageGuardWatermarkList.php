@@ -71,7 +71,7 @@ defined('WPINC') || exit;
             <tr>
                 <th>Effective Paths</th>
                 <td>
-                    <textarea name="effective_paths" id="" cols="30" rows="5" disabled
+                    <textarea name="effective_paths" id="" cols="30" rows="5"
                               placeholder="<?php echo esc_html__('For multiple paths, please press Enter for each line, with each path on a separate line.', 'page-guard-watermark') ?>"
                     ><?php echo ArrayHelper::safeGet($data, 'effective_paths') ?></textarea>
                 </td>

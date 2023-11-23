@@ -1,79 +1,116 @@
 (function () {
-    function __canvasWM({
-                            container = document.body,
-                            width = '300px',
-                            height = '200px',
-                            textAlign = 'center',
-                            textBaseline = 'middle',
-                            font = "20px Microsoft Yahei",
-                            fillStyle = 'rgba(184, 184, 184, 0.6)',
-                            content = '水印',
-                            rotate = '45',
-                            zIndex = 10000
-                        } = {}) {
-        const args = arguments[0];
+    function drawImage(canvas, logo, logoWidth, logoHeight, alpha) {
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = logo;
+
+        if (img.complete) {
+            ctx.globalAlpha = alpha;  // 设置透明度
+            ctx.drawImage(img, 0, 0, logoWidth, logoHeight);
+        } else {
+            img.onload = function () {
+                // not working
+                ctx.globalAlpha = alpha;  // 设置透明度
+                ctx.drawImage(img, 0, 0, logoWidth, logoHeight);
+            };
+        }
+
+        // 图片颜色转成和文字颜色一样
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            // 如果是白色，改为透明
+            if (data[i] === 255 && data[i + 1] === 255 && data[i + 2] === 255) {
+                data[i + 3] = 0;
+            } else {
+                // 否则改变每个像素的颜色
+                data[i] = 184;     // red
+                data[i + 1] = 184;   // green
+                data[i + 2] = 184;   // blue
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+    }
+
+    function drawText(canvas, options) {
+        const lines = options.content.split(/[\r\n]+/);
+        const lineHeight = options.lineHeight;
+        let maxWidth = 0;
+
+        // 新建一个假的，用来计算长度
+        const ctxFaker = canvas.getContext('2d');
+        ctxFaker.textAlign = options.textAlign;
+        ctxFaker.textBaseline = 'top'; // 使用 'top' 作为基准线
+        ctxFaker.font = options.fontSize + "px " + options.font;
+        ctxFaker.fillStyle = options.fillStyle;
+        lines.forEach((line, index) => {
+            const textWidth = ctxFaker.measureText(line).width;
+            maxWidth = Math.max(maxWidth, textWidth);
+        });
+
+        // 设置 canvas 的宽度和高度
+        canvas.width = maxWidth + 2 * options.marginVertical;
+        canvas.height = lines.length * options.fontSize + (lines.length * lineHeight) + 2 * options.marginHorizontal;
+        // fillCanvasBackground(canvas, 'green');
+
+        // 设置好 cavas 的长度以后再操作数据，因为 cavas 设置长度以后数据会被清空
+        const ctx = canvas.getContext('2d');
+        ctx.textAlign = options.textAlign;
+        ctx.textBaseline = 'top'; // 使用 'top' 作为基准线
+        ctx.font = options.fontSize + "px " + options.font;
+        ctx.fillStyle = options.fillStyle;
+        ctx.globalAlpha = options.alpha;
+
+        lines.forEach((line, index) => {
+            // lineHeight * index 是每一行的间距；options.fontSize * index 是每一行文字的高度；lineHeight / 2 是首行需要占用的高度，首行一半、尾行一半
+            const textY = lineHeight * index + options.fontSize * index + lineHeight / 2;
+            ctx.fillText(line, 0, textY);
+        });
+    }
+
+    function __canvasWM() {
         const canvas = document.createElement('canvas');
-
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
-        const ctx = canvas.getContext("2d");
-
-
-        ctx.textAlign = textAlign;
-        /* 设置 Canvas 2D 上下文中文本基线的属性
-            top: 顶部对齐
-            hanging: 挂起基线对齐
-            middle: 居中对齐
-            alphabetic: 默认，基线是标准的字母基线
-            ideographic: 基线是标准的表意字符基线
-            bottom: 底部对齐
-        */
-        ctx.textBaseline = textBaseline;
-        ctx.font = font;
-        ctx.fillStyle = fillStyle;
-        // 旋转 Canvas 2D 上下文中的绘图 Math.PI:3.1415
-        ctx.rotate(Math.PI / 180 * rotate);
-        // Canvas 2D 上下文的 fillText 方法在指定的坐标位置绘制文本
-        ctx.fillText(content, parseFloat(width) / 2, parseFloat(height) / 2);
-
-        // Canvas 元素的 toDataURL 方法将 Canvas 上的内容转换为 base64 编码的图像数据
+        drawText(canvas, {
+            textAlign: pgw_config.text_align,
+            textBaseline: "top",
+            font: 'Microsoft Yahei',
+            fillStyle: pgw_config.text_color,
+            alpha: pgw_config.text_alpha,
+            content: pgw_config.text_content,
+            fontSize: pgw_config.text_size,
+            lineHeight: pgw_config.text_line_spacing,
+            marginVertical: pgw_config.vertical,
+            marginHorizontal: pgw_config.horizontal,
+        });
         const base64Url = canvas.toDataURL();
+
         // 检查和创建一个带有类名 __wm 的元素
         const __wm = document.querySelector('.__wm');
         const watermarkDiv = __wm || document.createElement("div");
 
-        /**
-         * 每个属性：
-         1. `position: fixed;`： - 指定元素相对于浏览器窗口进行定位。
-         2. `top: 0;`： - 设置元素相对于其内容区域顶部边缘的顶部距离。在这里，设置为 `0`，使元素与窗口顶部对齐。
-         3. `left: 0;`： - 设置元素相对于其内容区域左侧边缘的左侧距离。在这里，设置为 `0`，使元素与窗口左侧对齐。
-         4. `bottom: 0;`： - 设置元素相对于其内容区域底部边缘的底部距离。在这里，设置为 `0`，使元素与窗口底部对齐。
-         5. `right: 0;`： - 设置元素相对于其内容区域右侧边缘的右侧距离。在这里，设置为 `0`，使元素与窗口右侧对齐。
-         6. `width: 100%;`： - 将元素的宽度设置为其包含元素的 `100%`，在这里是整个窗口。
-         7. `height: 100%;`： - 将元素的高度设置为其包含元素的 `100%`，在这里是整个窗口。
-         8. `z-index: ${zIndex};`： - 设置元素的层叠顺序。`zIndex` 的值是动态插入的，使用模板字面量，使开发人员能够以编程方式控制层叠顺序。
-         9. `pointer-events: none;`： - 指定元素不响应鼠标事件。这确保水印不会干扰页面上的用户交互。
-         10. `background-repeat: repeat;`： - 设置背景图像的重复行为。在这里，背景图像（稍后指定）将在垂直和水平方向上重复。
-         11. `background-image: url('${base64Url}')`： - 设置元素的背景图像。使用 `url()` 函数并动态插入 `base64Url`。这是水印图像作为背景应用的位置。
-         总而言之，`styleStr` 定义了水印的视觉属性，使其成为一个固定位置、全屏的元素，具有指定的层叠顺序，对鼠标事件透明，使用base64编码的图像作为其重复的背景。
-         * @type {string}
-         */
+        // 倾斜角度
+        let rotate = pgw_config.rotate_angle
+
+        let width = window.screen.width + "px";
+        let height = window.screen.height + "px";
+
         const styleStr = `
                   position:fixed;
-                  top:0;
-                  left:0;
-                  bottom:0;
-                  right:0;
-                  width:100%;
-                  height:100%;
-                  z-index:${zIndex};
+                  top:-${height};
+                  bottom:-${height};
+                  left:-${width};
+                  right:-${width};
+                  z-index:999999;
                   pointer-events:none;
                   background-repeat:repeat;
-                  background-image:url('${base64Url}')`;
+                  background-image:url('${base64Url}');
+                  transform-origin: center 0;
+                  transform: rotate(${rotate}deg);`;
 
         watermarkDiv.setAttribute('style', styleStr);
         watermarkDiv.classList.add('__wm');
 
+        let container = document.body
         if (!__wm) {
             container.style.position = 'relative';
             container.insertBefore(watermarkDiv, container.firstChild);
@@ -89,7 +126,7 @@
                     // 避免一直触发
                     mo.disconnect();
                     mo = null;
-                    __canvasWM(JSON.parse(JSON.stringify(args)));
+                    __canvasWM();
                 }
             });
 
@@ -100,25 +137,19 @@
                 childList: true     // 观察子节点的增减
             })
         }
-
     }
 
-    console.log(1)
     if (typeof module != 'undefined' && module.exports) {  //CMD
         module.exports = __canvasWM;
-        console.log(2)
     } else if (typeof define == 'function' && define.amd) { // AMD
         define(function () {
             return __canvasWM;
-            console.log(3)
         });
     } else {
         window.__canvasWM = __canvasWM;
-        console.log(4)
     }
 })();
 
-// 调用
-__canvasWM({
-    content: '水印123'
-});
+window.onload = function () {
+    __canvasWM();
+}

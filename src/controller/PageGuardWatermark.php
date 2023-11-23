@@ -40,7 +40,8 @@ class PageGuardWatermark
                 }
                 $vertical = (int)$_POST['vertical'];
                 $horizontal = (int)$_POST['horizontal'];
-                $textContent = sanitize_text_field($_POST['text_content']);
+                $textContent = wp_kses_data($_POST['text_content']);
+//                $textContent = $_POST['text_content'];
                 if (empty($textContent)) {
                     throw new RuntimeException(esc_html__("参数 Text Content 有误，不允许为空，假如希望不展示水印，可以通过修改状态为'Hide'", "page-guard-watermark"));
                 }
