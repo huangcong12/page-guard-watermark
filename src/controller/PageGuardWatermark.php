@@ -45,10 +45,6 @@ class PageGuardWatermark
                 if (empty($textContent)) {
                     throw new RuntimeException(esc_html__("参数 Text Content 有误，不允许为空，假如希望不展示水印，可以通过修改状态为'Hide'", "page-guard-watermark"));
                 }
-                $textAlign = (int)$_POST['text_align'];
-                if (!empty($textAlign) && !in_array($textAlign, [1, 2, 3, 4])) {
-                    throw new RuntimeException(esc_html__("参数 Text Align 有误，请刷新页面重试", "page-guard-watermark"));
-                }
                 $size = (int)$_POST['text_size'];
                 if (empty($size)) {
                     throw new RuntimeException(esc_html__("参数 Size 有误，不允许为空", "page-guard-watermark"));
@@ -57,10 +53,14 @@ class PageGuardWatermark
                 $textAlpha = (float)$_POST['text_alpha'];
                 $textColor = sanitize_text_field($_POST['text_color']);
 
-                $saveRes = self::save($status, $rotateAngle, $vertical, $horizontal, $textContent, $textAlign, $size, $textLineSpacing, $textAlpha, $textColor);
+                $saveRes = self::save($status, $rotateAngle, $vertical, $horizontal, $textContent, $size, $textLineSpacing, $textAlpha, $textColor);
                 if (!$saveRes) {
                     throw new RuntimeException(esc_html__("保存失败，请重试", "page-guard-watermark"));
                 }
+
+                // 设置页面刷新
+                self::refreshPage();
+                return;
             }
 
         } catch (RuntimeException $exception) {
@@ -69,10 +69,18 @@ class PageGuardWatermark
 
         // 查询数据用于展示
         $data = self::getData();
-
+        // 初始化颜色选择控件
         self::enqueueColorPicker();
-
+        // 展示页面
         self::showPage($data);
+    }
+
+    /**
+     * 更新完成刷新页面，规避需要手动刷新才能看到效果的问题
+     */
+    public static function refreshPage()
+    {
+        echo '<script>location.reload();</script>';
     }
 
     /**
@@ -117,7 +125,7 @@ class PageGuardWatermark
     /**
      * 保存数据
      */
-    private static function save($status, $rotateAngle, $vertical, $horizontal, $textContent, $textAlign, $size, $textLineSpacing, $textAlpha, $textColor)
+    private static function save($status, $rotateAngle, $vertical, $horizontal, $textContent, $size, $textLineSpacing, $textAlpha, $textColor)
     {
         // 存在则更新
         if (get_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION)) {
@@ -127,7 +135,6 @@ class PageGuardWatermark
                 'vertical' => $vertical,
                 'horizontal' => $horizontal,
                 'text_content' => $textContent,
-                'text_align' => $textAlign,
                 'text_size' => $size,
                 'text_line_spacing' => $textLineSpacing,
                 'text_alpha' => $textAlpha,
@@ -141,7 +148,6 @@ class PageGuardWatermark
             'vertical' => $vertical,
             'horizontal' => $horizontal,
             'text_content' => $textContent,
-            'text_align' => $textAlign,
             'text_size' => $size,
             'text_line_spacing' => $textLineSpacing,
             'text_alpha' => $textAlpha,

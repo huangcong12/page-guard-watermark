@@ -12,7 +12,7 @@ defined('WPINC') || exit;
     <h1><?php echo esc_html__('Watermark Settings', 'page-guard-watermark') ?></h1>
     <hr class="wp-header-end">
 
-    <form id="your-profile" action="" method="post" novalidate="novalidate">
+    <form id="watermark_configuration_form" action="" method="post" novalidate="novalidate">
         <h2>Watermark Configuration</h2>
         <?php wp_nonce_field('page_guard_watermark', 'nonce_field'); ?>
 
@@ -35,7 +35,8 @@ defined('WPINC') || exit;
                 <th><?php echo esc_html__('Rotate Angle', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text" placeholder="<?php echo esc_html__('Supports 0~90°', 'page-guard-watermark') ?>"
-                           name="rotate_angle" value="<?php echo ArrayHelper::safeGet($data, 'rotate_angle') ?>" readonly>
+                           name="rotate_angle" value="<?php echo ArrayHelper::safeGet($data, 'rotate_angle') ?>"
+                           readonly>
                 </td>
             </tr>
             <tr>
@@ -71,17 +72,9 @@ defined('WPINC') || exit;
             <tr>
                 <th>Effective Paths</th>
                 <td>
-                    <textarea name="effective_paths" id="" cols="30" rows="5"
+                    <textarea name="effective_paths" id="" cols="30" rows="5" disabled
                               placeholder="<?php echo esc_html__('For multiple paths, please press Enter for each line, with each path on a separate line.', 'page-guard-watermark') ?>"
                     ><?php echo ArrayHelper::safeGet($data, 'effective_paths') ?></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th>Excluded Paths</th>
-                <td>
-                    <textarea name="excluded_paths" id="" cols="30" rows="5" disabled
-                              placeholder="<?php echo esc_html__('For multiple paths, please press Enter for each line, with each path on a separate line.', 'page-guard-watermark') ?>"
-                    ><?php echo ArrayHelper::safeGet($data, 'excluded_paths') ?></textarea>
                 </td>
             </tr>
         </table>
@@ -95,32 +88,23 @@ defined('WPINC') || exit;
                     <textarea name="text_content" id="" cols="30" rows="8" placeholder="e.g. Hello {$admin_name}, please be mindful of data security.
 {$now_date}"><?php echo ArrayHelper::safeGet($data, 'text_content') ?></textarea>
                     <br>
-                    <tip>Supports line breaks, supports variables: {$admin_id},</tip>
+                    <tip>Supports line breaks, supports variables: {admin_id},</tip>
                     <br>
-                    <tip>{$admin_name}, {$ip}, {$login_time}, {$now_time}, {$now_date}</tip>
-                </td>
-            </tr>
-            <tr>
-                <th><?php echo esc_html__('Text Align (required)', 'page-guard-watermark') ?></th>
-                <td>
-                    <select name="text_align" id="">
-                        <option value=1 <?php echo ArrayHelper::safeEqual($data, 'text_align', 1) ? "selected" : "" ?>><?php echo esc_html__('Left', 'page-guard-watermark') ?></option>
-                        <option value=2 <?php echo ArrayHelper::safeEqual($data, 'text_align', 2) ? "selected" : "" ?>><?php echo esc_html__('Right', 'page-guard-watermark') ?></option>
-                        <option value=3 <?php echo ArrayHelper::safeEqual($data, 'text_align', 3) ? "selected" : "" ?>><?php echo esc_html__('Top', 'page-guard-watermark') ?></option>
-                        <option value=4 <?php echo ArrayHelper::safeEqual($data, 'text_align', 4) ? "selected" : "" ?>><?php echo esc_html__('Bottom', 'page-guard-watermark') ?></option>
-                    </select>
+                    <tip>{admin_name}, {ip}, {now_time}, {now_date}</tip>
                 </td>
             </tr>
             <tr>
                 <th><?php echo esc_html__('Size (required)', 'page-guard-watermark') ?></th>
                 <td>
-                    <input type="text" name="text_size" placeholder="e.g. 24" value="<?php echo ArrayHelper::safeGet($data, 'text_size') ?>">
+                    <input type="text" name="text_size" placeholder="e.g. 24"
+                           value="<?php echo ArrayHelper::safeGet($data, 'text_size') ?>">
                 </td>
             </tr>
             <tr>
                 <th><?php echo esc_html__('Line Spacing', 'page-guard-watermark') ?></th>
                 <td>
-                    <input type="text" name="text_line_spacing" placeholder="e.g. 1.2" value="<?php echo ArrayHelper::safeGet($data, 'text_line_spacing') ?>">
+                    <input type="text" name="text_line_spacing" placeholder="e.g. 1.2"
+                           value="<?php echo ArrayHelper::safeGet($data, 'text_line_spacing') ?>">
                 </td>
             </tr>
             <tr>
@@ -135,7 +119,8 @@ defined('WPINC') || exit;
             <tr>
                 <th><?php echo esc_html__('Color', 'page-guard-watermark') ?></th>
                 <td>
-                    <input type="text" name="text_color" class="color-picker" value="<?php echo ArrayHelper::safeGet($data, 'text_color') ?>">
+                    <input type="text" name="text_color" class="color-picker"
+                           value="<?php echo ArrayHelper::safeGet($data, 'text_color') ?>">
                 </td>
             </tr>
         </table>
