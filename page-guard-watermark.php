@@ -4,13 +4,11 @@ Plugin Name: Page Guard Watermark
 Text Domain: page-guard-watermark
 Domain Path: /assets/languages
 Plugin URI: http://wordpress.org/plugins/hello-dolly/
-Description: Protect and Label Your Webpage Content
-Author: Hang Cong
+Description: Add a secure watermark to your WordPress admin pages in a simple and user-friendly way.
+Author: Cong Hang
 Version: 1.0.0
 Author URI: https://github.com/huangcong12
 */
-
-use LitaPig\PageGuardWatermark\WatermarkHandler;
 
 defined('WPINC') || exit;
 
@@ -34,20 +32,7 @@ register_uninstall_hook(__FILE__, "LitaPig\\PageGuardWatermark\\PluginActivation
 ## -------------------------------------------------- ##
 ## -----------------	菜单管理   ------------------- ##
 ## -------------------------------------------------- ##
-add_action('admin_menu', "LitaPig\\PageGuardWatermark\\AdminMenuHandler::menusManager");    // 顶级菜单
+add_action('admin_menu', "LitaPig\\PageGuardWatermark\\AdminMenuHandler::menusManager");
 
 // 展示水印
 add_action('init', 'LitaPig\\PageGuardWatermark\\WatermarkHandler::show');
-
-//function pageguard_watermark_scripts()
-//{
-//    // 注册并添加JavaScript文件
-//    wp_register_script('pageguard-watermark-js', plugin_dir_url(__FILE__) . 'js/page-guard-watermark.js', array('jquery'), '1.0', true);
-//    wp_enqueue_script('pageguard-watermark-js');
-
-// 注册并添加样式表文件
-//    wp_register_style('pageguard-watermark-css', plugin_dir_url(__FILE__) . 'css/page-guard-watermark.css', array(), '1.0', 'all');
-//    wp_enqueue_style('pageguard-watermark-css');
-//}
-
-//add_action('wp_footer', 'pageguard_watermark_scripts');
