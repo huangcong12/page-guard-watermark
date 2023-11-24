@@ -20,12 +20,12 @@ class AdminMenuHandler
     {
         self::topLevelMenus();
 
-        self::subMenus();
+//        self::subMenus();
         // 调整首个子菜单名字
-        self::customizeWatermarkListSubmenuName();
+//        self::customizeWatermarkListSubmenuName();
 
         // 修改按钮颜色
-        self::adjustProMenuItem();
+//        self::adjustProMenuItem();
         add_action('admin_head', "LitaCat\\PageGuardWatermark\\AdminMenuHandler::admin_menu_styles", 11);
     }
 
