@@ -119,7 +119,7 @@ class PageGuardWatermark
 
         // 查询列表数据
         require_once(LITA_PIG_PGW_WP_DIR . 'tpl/pageGuardWatermarkList.php');
-        require_once(LITA_PIG_PGW_WP_DIR . 'tpl/footer.php');
+//        require_once(LITA_PIG_PGW_WP_DIR . 'tpl/footer.php');
     }
 
     /**
