@@ -32,22 +32,22 @@ class PageGuardWatermark
                 // 参数校验
                 $status = (int)$_POST['status'];
                 if (empty($status) || !in_array($status, [1, 2])) {
-                    throw new RuntimeException(esc_html__("参数 status 有误，请刷新页面重试", "page-guard-watermark"));
+                    throw new RuntimeException(esc_html__("Status entry is incorrect. Please refresh the page and try again.", "page-guard-watermark"));
                 }
                 $rotateAngle = (int)$_POST['rotate_angle'];
                 if (!empty($rotateAngle) && ($rotateAngle < 0 || $rotateAngle > 90)) {
-                    throw new RuntimeException(esc_html__("参数 Rotate Angle 有误，请刷新页面重试", "page-guard-watermark"));
+                    throw new RuntimeException(esc_html__("Rotate Angle entry is incorrect. Only values between 0 and 90 are allowed. Please refresh the page and try again.", "page-guard-watermark"));
                 }
                 $vertical = (int)$_POST['vertical'];
                 $horizontal = (int)$_POST['horizontal'];
                 $textContent = wp_kses_data($_POST['text_content']);
 //                $textContent = $_POST['text_content'];
                 if (empty($textContent)) {
-                    throw new RuntimeException(esc_html__("参数 Text Content 有误，不允许为空，假如希望不展示水印，可以通过修改状态为'Hide'", "page-guard-watermark"));
+                    throw new RuntimeException(esc_html__("Text Content entry is incorrect. It cannot be empty. If you wish to hide the watermark, you can achieve that by changing the status to 'Hide'.", "page-guard-watermark"));
                 }
                 $size = (int)$_POST['text_size'];
                 if (empty($size)) {
-                    throw new RuntimeException(esc_html__("参数 Size 有误，不允许为空", "page-guard-watermark"));
+                    throw new RuntimeException(esc_html__("Size entry is incorrect. It cannot be empty.", "page-guard-watermark"));
                 }
                 $textLineSpacing = (float)$_POST['text_line_spacing'];
                 $textAlpha = (float)$_POST['text_alpha'];
@@ -55,7 +55,7 @@ class PageGuardWatermark
 
                 $saveRes = self::save($status, $rotateAngle, $vertical, $horizontal, $textContent, $size, $textLineSpacing, $textAlpha, $textColor);
                 if (!$saveRes) {
-                    throw new RuntimeException(esc_html__("保存失败，请重试", "page-guard-watermark"));
+                    throw new RuntimeException(esc_html__("Save failed. Please retry.", "page-guard-watermark"));
                 }
 
                 // 设置页面刷新
