@@ -19,6 +19,7 @@ class WatermarkHandler
     public static function show()
     {
         $data = PageGuardWatermark::getData();
+        $sign = md5(serialize($data));
         // 1、还未配置
         if (empty($data)) {
             return;
@@ -45,7 +46,7 @@ class WatermarkHandler
         $data['text_content'] = self::replaceVariables($data['text_content']);
 
         // 4、注册并添加JavaScript文件
-        wp_register_script(self::JS_HANDLE_NAME, plugin_dir_url(__FILE__) . '../assets/js/page-guard-watermark.js', array('jquery'), '1.0', true);
+        wp_register_script(self::JS_HANDLE_NAME, plugin_dir_url(__FILE__) . '../assets/js/page-guard-watermark.js', array('jquery'), $sign, true);
         wp_enqueue_script(self::JS_HANDLE_NAME);
 
         // 5、传递参数到 js
