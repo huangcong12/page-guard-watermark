@@ -127,22 +127,7 @@ class PageGuardWatermark
      */
     private static function save($status, $rotateAngle, $vertical, $horizontal, $textContent, $size, $textLineSpacing, $textAlpha, $textColor)
     {
-        // 存在则更新
-        if (get_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION)) {
-            return update_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION, [
-                'status' => $status,
-                'rotate_angle' => $rotateAngle,
-                'vertical' => $vertical,
-                'horizontal' => $horizontal,
-                'text_content' => $textContent,
-                'text_size' => $size,
-                'text_line_spacing' => $textLineSpacing,
-                'text_alpha' => $textAlpha,
-                'text_color' => $textColor,
-            ]);
-        }
-
-        return add_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION, [
+        $saveData = [
             'status' => $status,
             'rotate_angle' => $rotateAngle,
             'vertical' => $vertical,
@@ -152,6 +137,19 @@ class PageGuardWatermark
             'text_line_spacing' => $textLineSpacing,
             'text_alpha' => $textAlpha,
             'text_color' => $textColor,
-        ], '', 'no');
+        ];
+        $currentData = get_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION);
+
+        // 无变化直接返回，否则 update_option 会返回 false
+        if (md5(serialize($saveData)) == md5(serialize($currentData))) {
+            return true;
+        }
+
+        // 存在则更新
+        if (!empty($currentData)) {
+            return update_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION, $saveData);
+        }
+
+        return add_option(self::ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION, $saveData, '', 'no');
     }
 }
