@@ -70,18 +70,21 @@
 
     function __canvasWM() {
         const canvas = document.createElement('canvas');
-        drawText(canvas, {
-            textAlign: pgw_config.text_align,
-            textBaseline: "top",
-            font: 'Microsoft Yahei',
-            fillStyle: pgw_config.text_color,
-            alpha: pgw_config.text_alpha,
-            content: pgw_config.text_content,
-            fontSize: pgw_config.text_size,
-            lineHeight: pgw_config.text_line_spacing,
-            marginVertical: pgw_config.vertical,
-            marginHorizontal: pgw_config.horizontal,
-        });
+        // 用于页面预览时的隐藏功能，隐藏时描绘一个空白 canvas
+        if (pgw_config.status == "1") {
+            drawText(canvas, {
+                textAlign: pgw_config.text_align,
+                textBaseline: "top",
+                font: 'Microsoft Yahei',
+                fillStyle: pgw_config.text_color,
+                alpha: pgw_config.text_alpha,
+                content: pgw_config.text_content,
+                fontSize: pgw_config.text_size,
+                lineHeight: pgw_config.text_line_spacing,
+                marginVertical: pgw_config.vertical,
+                marginHorizontal: pgw_config.horizontal,
+            });
+        }
         const base64Url = canvas.toDataURL();
 
         // 检查和创建一个带有类名 __wm 的元素

@@ -36,18 +36,23 @@ defined('WPINC') || exit;
                 <td>
                     <input type="text" placeholder="<?php echo esc_html__('Supports 0~90°', 'page-guard-watermark') ?>"
                            name="rotate_angle" value="<?php echo ArrayHelper::safeGet($data, 'rotate_angle') ?>"
-                           readonly>
+                           readonly> °
                 </td>
             </tr>
             <tr>
-                <th><?php echo esc_html__('Watermark Margin', 'page-guard-watermark') ?></th>
+                <th><?php echo esc_html__('Vertical Spacing', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text"
-                           placeholder="<?php echo esc_html__('Vertical Spacing, e.g. 20', 'page-guard-watermark') ?>"
-                           name="vertical" value="<?php echo ArrayHelper::safeGet($data, 'vertical') ?>">
+                           placeholder="<?php echo esc_html__('e.g. 20', 'page-guard-watermark') ?>"
+                           name="vertical" value="<?php echo ArrayHelper::safeGet($data, 'vertical') ?>"> px
+                </td>
+            </tr>
+            <tr>
+                <th><?php echo esc_html__('Horizontal Spacing', 'page-guard-watermark') ?></th>
+                <td>
                     <input type="text"
-                           placeholder="<?php echo esc_html__('Horizontal Spacing, e.g. 20', 'page-guard-watermark') ?>"
-                           name="horizontal" value="<?php echo ArrayHelper::safeGet($data, 'horizontal') ?>">
+                           placeholder="<?php echo esc_html__('e.g. 20', 'page-guard-watermark') ?>"
+                           name="horizontal" value="<?php echo ArrayHelper::safeGet($data, 'horizontal') ?>"> px
                 </td>
             </tr>
             <tr>
@@ -97,7 +102,7 @@ defined('WPINC') || exit;
                 <th><?php echo esc_html__('Size (required)', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text" name="text_size" placeholder="e.g. 24"
-                           value="<?php echo ArrayHelper::safeGet($data, 'text_size') ?>">
+                           value="<?php echo ArrayHelper::safeGet($data, 'text_size') ?>"> px
                 </td>
             </tr>
             <tr>
@@ -132,5 +137,39 @@ defined('WPINC') || exit;
 <script>
     jQuery(document).ready(function ($) {
         $('.color-picker').wpColorPicker();
+
+        // 增加预览效果
+        $("select[name='status']").on("change", reviewWatermark);
+        $("input[name='vertical']").on("input", reviewWatermark);
+        $("input[name='horizontal']").on("input", reviewWatermark);
+        $("textarea[name='text_content']").on("input", reviewWatermark);
+        $("input[name='text_size']").on("input", reviewWatermark);
+        $("input[name='text_line_spacing']").on("input", reviewWatermark);
+        $("input[name='text_alpha']").on("input", reviewWatermark);
+        $(".color-picker").wpColorPicker(
+            'option',
+            'change',
+            function (event, ui) {
+                $('input[name="text_color"]').val(ui.color.toString())
+                reviewWatermark()
+            }
+        );
+
+        /**
+         * 在当前页面预览水印效果
+         */
+        function reviewWatermark() {
+            // 修改属性
+            pgw_config.status = $('select[name="status"]').val()
+            pgw_config.vertical = $('input[name="vertical"]').val()
+            pgw_config.horizontal = $('input[name="horizontal"]').val()
+            pgw_config.text_content = $('textarea[name="text_content"]').val()
+            pgw_config.text_size = $('input[name="text_size"]').val()
+            pgw_config.text_line_spacing = $('input[name="text_line_spacing"]').val()
+            pgw_config.text_alpha = $('input[name="text_alpha"]').val()
+            pgw_config.text_color = $('input[name="text_color"]').val()
+            // 重新加载
+            __canvasWM();
+        }
     });
 </script>
