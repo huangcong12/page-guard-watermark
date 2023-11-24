@@ -1,13 +1,13 @@
 <?php
 
-namespace LitaPig\PageGuardWatermark;
+namespace LitaCat\PageGuardWatermark;
 
 defined('WPINC') || exit;
 
 /**
  * 数组助手类
  * Class ArrayHelper
- * @package LitaPig\PageGuardWatermark
+ * @package LitaCat\PageGuardWatermark
  */
 class ArrayHelper
 {

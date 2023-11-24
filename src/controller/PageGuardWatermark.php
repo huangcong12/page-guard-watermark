@@ -1,8 +1,8 @@
 <?php
 
-namespace LitaPig\PageGuardWatermark\Controller;
+namespace LitaCat\PageGuardWatermark\Controller;
 
-use LitaPig\PageGuardWatermark\MessageHandler;
+use LitaCat\PageGuardWatermark\MessageHandler;
 use RuntimeException;
 
 defined('WPINC') || exit;
@@ -12,7 +12,7 @@ class PageGuardWatermark
     /**
      * 后台水印名字
      */
-    const ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION = "Admin Panel Watermark Configuration";
+    const ADMIN_PANEL_WATERMARK_CONFIGURATION_OPTION = "Admin Panel Watermark Conf";
 
     /**
      * 数据编辑页
@@ -118,8 +118,8 @@ class PageGuardWatermark
         require_once ABSPATH . 'wp-admin/admin-header.php';
 
         // 查询列表数据
-        require_once(LITA_PIG_PGW_WP_DIR . 'tpl/pageGuardWatermarkList.php');
-//        require_once(LITA_PIG_PGW_WP_DIR . 'tpl/footer.php');
+        require_once(LITA_CAT_PGW_WP_DIR . 'tpl/pageGuardWatermarkList.php');
+//        require_once(LITA_CAT_PGW_WP_DIR . 'tpl/footer.php');
     }
 
     /**

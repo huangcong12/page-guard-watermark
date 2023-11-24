@@ -1,13 +1,13 @@
 <?php
 
-namespace LitaPig\PageGuardWatermark;
+namespace LitaCat\PageGuardWatermark;
 
 defined('WPINC') || exit;
 
 /**
  * 后台菜单助手类
  * Class AdminMenuHandler
- * @package LitaPig\PageGuardWatermark
+ * @package LitaCat\PageGuardWatermark
  */
 class AdminMenuHandler
 {
@@ -26,7 +26,7 @@ class AdminMenuHandler
 
         // 修改按钮颜色
         self::adjustProMenuItem();
-        add_action('admin_head', "LitaPig\\PageGuardWatermark\\AdminMenuHandler::admin_menu_styles", 11);
+        add_action('admin_head', "LitaCat\\PageGuardWatermark\\AdminMenuHandler::admin_menu_styles", 11);
     }
 
     /**
@@ -104,8 +104,8 @@ class AdminMenuHandler
         global $submenu;
 
         // 更改第一个子菜单的名称
-        if (isset($submenu[LITA_PIG_PGW_WP_NAME])) {
-            $submenu[LITA_PIG_PGW_WP_NAME][0][0] = esc_html__('Watermark Settings', 'page-guard-watermark');
+        if (isset($submenu[LITA_CAT_PGW_WP_NAME])) {
+            $submenu[LITA_CAT_PGW_WP_NAME][0][0] = esc_html__('Watermark Settings', 'page-guard-watermark');
         }
     }
 }

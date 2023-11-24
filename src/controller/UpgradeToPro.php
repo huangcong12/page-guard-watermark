@@ -1,6 +1,6 @@
 <?php
 
-namespace LitaPig\PageGuardWatermark\Controller;
+namespace LitaCat\PageGuardWatermark\Controller;
 
 defined('WPINC') || exit;
 

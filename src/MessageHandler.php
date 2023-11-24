@@ -1,13 +1,13 @@
 <?php
 
-namespace LitaPig\PageGuardWatermark;
+namespace LitaCat\PageGuardWatermark;
 
 defined('WPINC') || exit;
 
 /**
  * 消息提醒类
  * Class MessageHandler
- * @package LitaPig\PageGuardWatermark
+ * @package LitaCat\PageGuardWatermark
  */
 class MessageHandler
 {

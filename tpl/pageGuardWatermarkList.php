@@ -2,7 +2,7 @@
 
 namespace PageGuardWatermark;
 
-use LitaPig\PageGuardWatermark\ArrayHelper;
+use LitaCat\PageGuardWatermark\ArrayHelper;
 
 defined('WPINC') || exit;
 ?>

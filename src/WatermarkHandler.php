@@ -1,13 +1,13 @@
 <?php
 
-namespace LitaPig\PageGuardWatermark;
+namespace LitaCat\PageGuardWatermark;
 
-use LitaPig\PageGuardWatermark\Controller\PageGuardWatermark;
+use LitaCat\PageGuardWatermark\Controller\PageGuardWatermark;
 
 /**
  * 控制水印加载逻辑
  * Class WatermarkHandler
- * @package LitaPig\PageGuardWatermark
+ * @package LitaCat\PageGuardWatermark
  */
 class WatermarkHandler
 {
