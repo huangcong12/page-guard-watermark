@@ -65,7 +65,6 @@ class WatermarkHandler
         // 获取变量值，这里假设你已经有了这些变量的值
         $adminId = get_current_user_id();
         $adminName = $currentUser->user_nicename;
-        $ip = $_SERVER['REMOTE_ADDR'];
         $nowTime = current_time('H:i:s');
         $nowDate = current_time('Y-m-d');
 
@@ -73,13 +72,29 @@ class WatermarkHandler
         $variables = array(
             '{admin_id}' => $adminId,
             '{admin_name}' => $adminName,
-            '{ip}' => $ip,
+            '{ip}' => self::getIp(),
             '{now_time}' => $nowTime,
             '{now_date}' => $nowDate,
         );
 
         // 使用 str_replace 进行替换
         return str_replace(array_keys($variables), array_values($variables), $text);
+    }
+
+    /**
+     * 获取 ip 地址
+     */
+    private static function getIp()
+    {
+        $userIp = $_SERVER['REMOTE_ADDR'];
+
+        // 如果使用了代理服务器，需要检查是否有代理IP
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $userIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+
+        // 使用过滤函数确保IP的合法性
+        return filter_var($userIp, FILTER_VALIDATE_IP);
     }
 
 
