@@ -1,37 +1,4 @@
 (function () {
-    function drawImage(canvas, logo, logoWidth, logoHeight, alpha) {
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.src = logo;
-
-        if (img.complete) {
-            ctx.globalAlpha = alpha;  // 设置透明度
-            ctx.drawImage(img, 0, 0, logoWidth, logoHeight);
-        } else {
-            img.onload = function () {
-                // not working
-                ctx.globalAlpha = alpha;  // 设置透明度
-                ctx.drawImage(img, 0, 0, logoWidth, logoHeight);
-            };
-        }
-
-        // 图片颜色转成和文字颜色一样
-        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let data = imageData.data;
-        for (let i = 0; i < data.length; i += 4) {
-            // 如果是白色，改为透明
-            if (data[i] === 255 && data[i + 1] === 255 && data[i + 2] === 255) {
-                data[i + 3] = 0;
-            } else {
-                // 否则改变每个像素的颜色
-                data[i] = 184;     // red
-                data[i + 1] = 184;   // green
-                data[i + 2] = 184;   // blue
-            }
-        }
-        ctx.putImageData(imageData, 0, 0);
-    }
-
     function drawText(canvas, options) {
         const lines = options.content.split(/[\r\n]+/);
         const lineHeight = options.lineHeight;
