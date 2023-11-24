@@ -21,9 +21,9 @@ class PageGuardWatermark
     {
         try {
             // TODO 权限校验
-//        if ( ! current_user_can( 'edit_user', $user_id ) ) {
-//            wp_die( __( 'Sorry, you are not allowed to edit this user.' ) );
-//        }
+//            if (!current_user_can('edit_page_guard_watermark', get_current_user_id())) {
+//                wp_die(__('Sorry, you are not allowed to edit this user.'));
+//            }
             if (is_admin() && 'POST' === $_SERVER['REQUEST_METHOD']) {
                 if (check_admin_referer('page_guard_watermark', 'nonce_field') === false) {
                     throw new RuntimeException(esc_html__("The page has expired. Please refresh the page and try again.", "page-guard-watermark"));
