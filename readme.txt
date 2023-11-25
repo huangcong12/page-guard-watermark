@@ -35,6 +35,7 @@ Discover why organizations, enterprises, and teams that prioritize information s
 2.You'll need to fill in or select values for Vertical Spacing, Horizontal Spacing, Text Content, Size, Line Spacing, Alpha, and Color. If you're unsure of their functions, you can refer to the '.e.g' in each box and enter values similar to it.
 3.After filling in the details, click 'Save Changes' to see the watermark displayed on the page.
 4.After the initial successful addition, subsequent edits can be previewed in real-time on the page, but don't forget to click 'Save Changes'.
+5.If you wish to disable the watermark, please modify the 'Status' to 'Hide'.
 
 == Screenshots ==
 
