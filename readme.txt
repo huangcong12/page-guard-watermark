@@ -27,28 +27,7 @@ Discover why organizations, enterprises, and teams that prioritize information s
 
 == Screenshots ==
 
-1. WPForms Drag & Drop Online Form Builder
-2. Adding New Field
-3. Form Templates
-4. Payments Overview
-5. Single Payment Page
-6. Form Preview
-7. Form Pages with multiple styles
-8. Conversational Forms
-
-== Frequently Asked Questions ==
-
-= Who should use WPForms? =
-
-WPForms is perfect for business owners, bloggers, designers, developers, photographers, and basically everyone else. If you want to create a custom WordPress form, then you need to use the WPForms drag & drop form builder.
-
-= Do I need to have coding skills to use WPForms? =
-
-Absolutely not. You can create and manage forms without any coding knowledge (100% drag & drop form builder). WPForms is the most beginner friendly contact form plugin on the market.
-
-= What type of WordPress forms can I build with WPForms? =
-
 == Changelog ==
 
-= 1.0.0 =
-- Added: Form Submissions can now be checked against the Akismet API to prevent spam.
+= 1.0.0 - November 24 2023 =
+- * Initial Release.
