@@ -9,7 +9,7 @@ defined('WPINC') || exit;
 
 
 <div class="admin-content">
-    <h1><?php echo esc_html__('Watermark Settings', 'page-guard-watermark') ?></h1>
+    <h1><?php echo esc_html__('Page Guard Watermark Settings', 'page-guard-watermark') ?></h1>
     <hr class="wp-header-end">
 
     <form id="watermark_configuration_form" action="" method="post" novalidate="novalidate">
@@ -35,23 +35,23 @@ defined('WPINC') || exit;
                 <th><?php echo esc_html__('Rotate Angle', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text" placeholder="<?php echo esc_html__('Supports 0~90°', 'page-guard-watermark') ?>"
-                           name="rotate_angle" value="<?php echo ArrayHelper::safeGet($data, 'rotate_angle') ?>"
+                           name="rotate_angle" value="45"
                            readonly> °
                 </td>
             </tr>
             <tr>
-                <th><?php echo esc_html__('Vertical Spacing', 'page-guard-watermark') ?></th>
+                <th><?php echo esc_html__('Vertical Spacing (required)', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text"
-                           placeholder="<?php echo esc_html__('e.g. 20', 'page-guard-watermark') ?>"
-                           name="vertical" value="<?php echo ArrayHelper::safeGet($data, 'vertical') ?>"> px
+                           placeholder="<?php echo esc_html__('e.g. 50', 'page-guard-watermark') ?>"
+                           name="vertical" value="<?php echo ArrayHelper::safeGet($data, 'vertical') ?>" required> px
                 </td>
             </tr>
             <tr>
-                <th><?php echo esc_html__('Horizontal Spacing', 'page-guard-watermark') ?></th>
+                <th><?php echo esc_html__('Horizontal Spacing (required)', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text"
-                           placeholder="<?php echo esc_html__('e.g. 20', 'page-guard-watermark') ?>"
+                           placeholder="<?php echo esc_html__('e.g. 50', 'page-guard-watermark') ?>"
                            name="horizontal" value="<?php echo ArrayHelper::safeGet($data, 'horizontal') ?>"> px
                 </td>
             </tr>
@@ -101,19 +101,19 @@ defined('WPINC') || exit;
             <tr>
                 <th><?php echo esc_html__('Size (required)', 'page-guard-watermark') ?></th>
                 <td>
-                    <input type="text" name="text_size" placeholder="e.g. 24"
+                    <input type="text" name="text_size" placeholder="e.g. 20"
                            value="<?php echo ArrayHelper::safeGet($data, 'text_size') ?>"> px
                 </td>
             </tr>
             <tr>
-                <th><?php echo esc_html__('Line Spacing', 'page-guard-watermark') ?></th>
+                <th><?php echo esc_html__('Line Spacing (required)', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text" name="text_line_spacing" placeholder="e.g. 1.2"
                            value="<?php echo ArrayHelper::safeGet($data, 'text_line_spacing') ?>">
                 </td>
             </tr>
             <tr>
-                <th><?php echo esc_html__('Alpha', 'page-guard-watermark') ?></th>
+                <th><?php echo esc_html__('Alpha (required)', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text" placeholder="<?php echo esc_html__('e.g. 0.3', 'page-guard-watermark') ?>"
                            name="text_alpha" value="<?php echo ArrayHelper::safeGet($data, 'text_alpha') ?>">
@@ -122,7 +122,7 @@ defined('WPINC') || exit;
                 </td>
             </tr>
             <tr>
-                <th><?php echo esc_html__('Color', 'page-guard-watermark') ?></th>
+                <th><?php echo esc_html__('Color (required)', 'page-guard-watermark') ?></th>
                 <td>
                     <input type="text" name="text_color" class="color-picker"
                            value="<?php echo ArrayHelper::safeGet($data, 'text_color') ?>">
@@ -169,7 +169,7 @@ defined('WPINC') || exit;
             pgw_config.text_alpha = $('input[name="text_alpha"]').val()
             pgw_config.text_color = $('input[name="text_color"]').val()
             // 重新加载
-            __canvasWM();
+            window.__canvasWM();
         }
     });
 </script>
