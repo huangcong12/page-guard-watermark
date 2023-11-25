@@ -25,6 +25,17 @@ Security is a prevailing concern in the software industry. While we prioritize s
 
 Discover why organizations, enterprises, and teams that prioritize information security appreciate Page Guard Watermark – and why you will too!
 
+== Installation ==
+= Similar to other plugins, you have various installation options. Choose a method you've successfully used before =
+1. Install directly from the Plugins market in the WordPress backend.
+2. Download the zip installation package from the WordPress web version's plugin market, then upload the plugin for installation in the WordPress backend.
+
+= Configure Plugin =
+1.After successful plugin installation, you should see the 'PageMark' menu in the WordPress backend menu bar. Click on it to access the configuration page.
+2.You'll need to fill in or select values for Vertical Spacing, Horizontal Spacing, Text Content, Size, Line Spacing, Alpha, and Color. If you're unsure of their functions, you can refer to the '.e.g' in each box and enter values similar to it.
+3.After filling in the details, click 'Save Changes' to see the watermark displayed on the page.
+4.After the initial successful addition, subsequent edits can be previewed in real-time on the page, but don't forget to click 'Save Changes'.
+
 == Screenshots ==
 
 == Changelog ==
