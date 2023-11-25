@@ -16,9 +16,8 @@
         });
 
         // 设置 canvas 的宽度和高度
-        canvas.width = maxWidth + 2 * options.marginVertical;
-        canvas.height = lines.length * options.fontSize + (lines.length * lineHeight) + 2 * options.marginHorizontal;
-        // fillCanvasBackground(canvas, 'green');
+        canvas.width = maxWidth + 2 * options.marginHorizontal;
+        canvas.height = lines.length * options.fontSize + (lines.length * lineHeight) + 2 * options.marginVertical;
 
         // 设置好 cavas 的长度以后再操作数据，因为 cavas 设置长度以后数据会被清空
         const ctx = canvas.getContext('2d');
@@ -109,17 +108,9 @@
         }
     }
 
-    if (typeof module != 'undefined' && module.exports) {  //CMD
-        module.exports = __canvasWM;
-    } else if (typeof define == 'function' && define.amd) { // AMD
-        define(function () {
-            return __canvasWM;
-        });
-    } else {
-        window.__canvasWM = __canvasWM;
-    }
+    window.__canvasWM = __canvasWM;
 })();
 
 window.onload = function () {
-    __canvasWM();
+    window.__canvasWM();
 }
