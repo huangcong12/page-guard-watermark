@@ -1,6 +1,7 @@
 <?php
 
 namespace LitaCat\PageGuardWatermark;
+defined('WPINC') || exit;
 
 /**
  * 插件安装、停用、删除的助手类

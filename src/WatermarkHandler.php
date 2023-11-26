@@ -1,6 +1,7 @@
 <?php
 
 namespace LitaCat\PageGuardWatermark;
+defined('WPINC') || exit;
 
 use LitaCat\PageGuardWatermark\Controller\PageGuardWatermark;
 
